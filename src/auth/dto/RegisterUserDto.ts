@@ -17,4 +17,20 @@ export class RegisterUserDto {
     example: 'Test123#',
   })
   password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'User first name',
+    example: 'John',
+  })
+  firstName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'User last name',
+    example: 'Doe',
+  })
+  lastName: string;
 }

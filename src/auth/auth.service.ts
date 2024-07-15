@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   async signUpUser(registerUser: RegisterUserDto) {
-    const { email, password } = registerUser;
+    const { email, password, firstName, lastName } = registerUser;
 
     const clientId = this.configService.get<string>(
       'COGNITO_USER_POOL_APP_CLIENT_ID',
@@ -30,6 +30,10 @@ export class AuthService {
         ClientId: clientId,
         Password: password,
         Username: email,
+        UserAttributes: [
+          { Name: 'custom:first_name', Value: firstName },
+          { Name: 'custom:last_name', Value: lastName },
+        ],
       })
       .promise();
 
