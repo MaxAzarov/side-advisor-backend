@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/RegisterUserDto';
 import { GetMeDto } from './dto/GetMeDto';
 import { RefreshTokenDto } from './dto/RefreshTokenDto';
+import { AuthLoginUserDto } from './dto/LoginUserDto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
   }
 
   @Post('/signin')
-  signIn(@Body() registerUserDto: RegisterUserDto) {
+  signIn(@Body() registerUserDto: AuthLoginUserDto) {
     return this.authService.signInUser(registerUserDto);
   }
 
