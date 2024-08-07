@@ -13,6 +13,9 @@ RUN npm install
 # Copy the entire content of the current directory to the working directory
 COPY . .
 
+# Build the application
+RUN npm run build
+
 # Expose the port that your Nest.js application will run on
 EXPOSE 3000
 
