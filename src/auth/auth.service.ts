@@ -1,9 +1,8 @@
 import { AuthLoginUserDto } from './dto/LoginUserDto';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as aws from 'aws-sdk';
 import { RegisterUserDto } from './dto/RegisterUserDto';
-import { GetMeDto } from './dto/GetMeDto';
 import { RefreshTokenDto } from './dto/RefreshTokenDto';
 
 @Injectable()
@@ -83,10 +82,12 @@ export class AuthService {
     };
   }
 
-  async getMe(getMeDto: GetMeDto) {
-    const userPoolId = this.configService.get<string>('COGNITO_USER_POOL_ID');
+  async getMe(email?: string) {
+    if (!email) {
+      throw new BadRequestException('Email is not provided.');
+    }
 
-    const { email } = getMeDto;
+    const userPoolId = this.configService.get<string>('COGNITO_USER_POOL_ID');
 
     return await this.cognitoIdentity
       .adminGetUser({

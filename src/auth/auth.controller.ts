@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/RegisterUserDto';
-import { GetMeDto } from './dto/GetMeDto';
 import { RefreshTokenDto } from './dto/RefreshTokenDto';
 import { AuthLoginUserDto } from './dto/LoginUserDto';
+import { JwtAuthGuard } from './guards';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -20,8 +22,14 @@ export class AuthController {
   }
 
   @Get('/me')
-  me(@Body() getMeDto: GetMeDto) {
-    return this.authService.getMe(getMeDto);
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get authenticated user info' })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized access.',
+  })
+  async me(@Req() req: Request & { user: { email: string } }) {
+    return await this.authService.getMe(req.user.email);
   }
 
   @Post('/refresh')
