@@ -3,12 +3,11 @@ import axios from 'axios';
 
 @Injectable()
 export class PlacesService {
-  constructor() {}
-
   async getPopularPlaces(
     lat: number,
     lon: number,
     radius: number,
+    categories?: string,
   ): Promise<any[]> {
     const url = 'https://api.foursquare.com/v3/places/search';
 
@@ -24,6 +23,7 @@ export class PlacesService {
           radius,
           limit: 10,
           v: '20231010',
+          categories,
         },
       });
 

@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import * as aws from 'aws-sdk';
 import { RegisterUserDto } from './dto/RegisterUserDto';
 import { RefreshTokenDto } from './dto/RefreshTokenDto';
+import { PromiseResult } from 'aws-sdk/lib/request';
 
 @Injectable()
 export class AuthService {
@@ -82,7 +83,14 @@ export class AuthService {
     };
   }
 
-  async getMe(email?: string) {
+  async getMe(
+    email?: string,
+  ): Promise<
+    PromiseResult<
+      aws.CognitoIdentityServiceProvider.AdminGetUserResponse,
+      aws.AWSError
+    >
+  > {
     if (!email) {
       throw new BadRequestException('Email is not provided.');
     }

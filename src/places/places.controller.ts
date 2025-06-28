@@ -10,8 +10,13 @@ export class PlacesController {
     @Query('lat') lat: number,
     @Query('lon') lon: number,
     @Query('radius') radius: number,
+    @Query('categories') categories?: string,
   ) {
-    const places = await this.placesService.getPopularPlaces(lat, lon, radius);
-    return places;
+    return await this.placesService.getPopularPlaces(
+      lat,
+      lon,
+      radius,
+      categories,
+    );
   }
 }

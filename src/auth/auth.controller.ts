@@ -28,7 +28,7 @@ export class AuthController {
     status: 401,
     description: 'Unauthorized access.',
   })
-  async me(@Req() req: Request & { user: { email: string } }) {
+  async me(@Req() req: Request & { user: { email: string; userId: string } }) {
     return await this.authService.getMe(req.user.email);
   }
 
