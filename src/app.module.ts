@@ -5,6 +5,7 @@ import * as Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
 import { PlacesModule } from './places/places.module';
 import { UsersModule } from './users/users.module';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { UsersModule } from './users/users.module';
     PlacesModule,
     UsersModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}
